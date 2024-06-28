@@ -1,5 +1,6 @@
 "use client"
 import Spinner from './Spinner';
+import ErrorFetch from './ErrorFetch';
 import { useEffect, useState } from 'react';
 import Image from "next/image";
 import styles from "../styles/main.module.css";
@@ -7,23 +8,30 @@ import styles from "../styles/main.module.css";
 export default function Main() {
 
   const [listProduct, setListProduct] = useState([]);
+  const [listComplete, setListComplete] = useState([]);
+  const [textSearch, setTextSearch] = useState('');
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const getProduct = async () => {
-      const response = await fetch("https://fakestoreapi.com/products/", {
-        cache: "no-cache",
-      });
+      try {
+        const response = await fetch("https://fakestoreapi.com/products/", {
+          cache: "no-cache",
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      setListProduct(data);
+        setListProduct(data);
+        setListComplete(data);
+      } catch {
+        setIsError(true);
+      }
     }
     getProduct();
   }, []);
 
   const orderAz = () => {
     const listAux = [...listProduct].sort((a, b) => a.title.localeCompare(b.title));
-
     setListProduct(listAux);
   }
 
@@ -46,14 +54,37 @@ export default function Main() {
     setListProduct(listAux);
   }
 
-  if (listProduct[0] == null){
-    return <Spinner/>
+  const search = (text) => {
+    setTextSearch(text);
+
+    if (text.trim() == '') {
+      setListProduct(listComplete);
+      return
+    }
+    const newList = listProduct.filter((product) =>
+      product.title.toUpperCase().trim().includes(textSearch.toUpperCase())
+    );
+    setListProduct(newList);
+  }
+
+  if(isError == true){
+    return <ErrorFetch/>
+  }
+
+  if (listComplete[0] == null) {
+    return <Spinner />
   }
 
   return (
     <>
       <div className={styles.filters}>
         <div>
+          <input
+            type='text'
+            value={textSearch}
+            placeholder='Pesquise um produto'
+            onChange={(event) => search(event.target.value)}
+          />
           <button onClick={orderAz}>A-z</button>
           <button onClick={orderZa}>z-A</button>
           <button onClick={orderLowHigh}>low-high </button>

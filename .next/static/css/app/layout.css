@@ -40,16 +40,24 @@
   \****************************************************************************************************************************************************************************************************************************************************************************/
 .footer_footer__17AzZ {
   display: flex;
-  flex-wrap: wrap;
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  flex-direction: row;
   justify-content: space-between;
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
-.footer_imagelogof__ZW97z {
-  align-items: end;
-  justify-content: right;
-  float: right;
+.footer_logo__HbyyU {
+  display: flex;
+  margin-right: 2vh;
+}
+
+.footer_texto__D9t6S {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 10vh;
+  margin-left: 12vh;
+  font-weight: bold;
+  font-size: 23px;
 }
