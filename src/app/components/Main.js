@@ -3,6 +3,7 @@ import Spinner from './Spinner';
 import ErrorFetch from './ErrorFetch';
 import { useEffect, useState } from 'react';
 import Image from "next/image";
+import Link from "next/link";
 import styles from "../styles/main.module.css";
 
 export default function Main() {
@@ -93,21 +94,25 @@ export default function Main() {
       </div>
 
       <main className={styles.main}>
-        {listProduct.map((products) => (
-          <div className={styles.card} key={products.id}>
-            <p>{products.title.slice(0, 6)}...</p>
+        {listProduct.map((product) => (
+          <div className={styles.card} key={product.id}>
+            <p>{product.title.slice(0, 6)}...</p>
 
-            <Image width={300} height={300} src={products.image} />
+            <Image width={300} height={300} src={product.image} />
 
-            <p>{products.category}</p>
+            <p>{product.category}</p>
 
             <p className={styles.description}>
-              {products.description.slice(0, 250)}...
+              {product.description.slice(0, 250)}...
             </p>
 
-            <p>US${products.price}</p>
+            <p>US${product.price}</p>
 
-            <p>{products.rating.count}</p>
+            <p>{product.rating.count}</p>
+
+            <Link href={'/product/' + product.id}>
+              <button>Ver Mais</button>
+            </Link>
           </div>
         ))}
       </main>
